@@ -1,0 +1,21 @@
+{
+  "name": "monique-offchain-resolver",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Louis Garoche",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@chainlink/ccip-read-server": "^0.2.1",
+    "@ensdomains/offchain-resolver-contracts": "^0.2.1",
+    "ethers": "^5.7.2"
+  }
+}
