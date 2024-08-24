@@ -7,6 +7,9 @@ import { BytesLike, Result } from "ethers/lib/utils"
 const Resolver = new ethers.utils.Interface(Resolver_abi)
 const signer = new ethers.utils.SigningKey(process.env.SIGNING_KEY ?? "")
 const address = ethers.utils.computeAddress(signer.privateKey)
+
+const DOMAINS = ["addr.id", "blocktag.id", "monique.id"]
+
 console.log("Signer address:", address)
 
 function decodeDnsName(dnsname: Buffer) {
@@ -29,7 +32,7 @@ const resolveMonic = async (name: string) => {
   }
 
   let domain = nodes.slice(-2).join(".")
-  if (domain !== "monique.id") {
+  if (DOMAINS.includes(domain) === false) {
     throw new Error("Invalid domain")
   }
 
@@ -61,7 +64,6 @@ const queryHandlers: {
     return [monic.address]
   },
   "addr(bytes32,uint256)": async (name, args) => {
-    console.log("addr", name, args)
     if (args[0] > 0) {
       return ["0x"]
     }
@@ -69,11 +71,9 @@ const queryHandlers: {
     return [monic.address]
   },
   "text(bytes32,string)": async (name, args) => {
-    console.log("text", name, args)
     return [""]
   },
   "contenthash(bytes32)": async (name, _args) => {
-    console.log("contenthash", name)
     return ["0x"]
   },
 }
@@ -98,6 +98,7 @@ async function query(
     throw new Error(`Unsupported query function ${signature}`)
   }
 
+  console.log("Handling query", signature, name)
   const result = await handler(name, args.slice(1))
   return {
     result: Resolver.encodeFunctionResult(signature, result),
@@ -113,7 +114,6 @@ const run = async () => {
       type: "resolve",
       func: async ([encodedName, data]: Result, request) => {
         const name = decodeDnsName(Buffer.from(encodedName.slice(2), "hex"))
-        console.log("resolve", name, data)
 
         const { result, validUntil } = await query(name, data)
 

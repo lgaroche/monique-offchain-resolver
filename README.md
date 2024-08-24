@@ -7,7 +7,7 @@ ENS Offchain resolver for [Monique](https://monique.app/).
 Monique integrates with ENS using the [Offchain DNS resolution](https://docs.ens.domains/resolvers/ccip-read).
 
 domain: `monique.id`
-resolver: `0xB6b72419c367f6F41Db8450249012D4B928eD017`
+resolver: `deal.reduce.edit.monique.id` (`0xB6b72419c367f6F41Db8450249012D4B928eD017`)
 method: [EIP-3668: CCIP-Read](https://eips.ethereum.org/EIPS/eip-3668)
 
 Names are the monic words joined with either a hyphen (`-`) or a dot (`.`). Examples:
